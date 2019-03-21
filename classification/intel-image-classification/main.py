@@ -119,11 +119,11 @@ def test(model, device, test_loader):
     test_loss = 0
     correct = 0
     with torch.no_grad():
-        for data, target in tqdm(test_loader, ascii=True):
-            data, target = data.to(device), target.to(device)
-            output = model(data)
-            test_loss += F.cross_entropy(output, target, reduction='sum').item()
-            pred = output.argmax(dim=1, keepdim=True)
+        for inputs, target in tqdm(test_loader, ascii=True):
+            inputs, target = inputs.to(device), target.to(device)
+            outputs = model(inputs)
+            test_loss += F.cross_entropy(outputs, target, reduction='sum').item()
+            pred = outputs.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
